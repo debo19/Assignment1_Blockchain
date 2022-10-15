@@ -32,37 +32,10 @@ Here, in DPoS ,user's vote weight is proportional to their stake rather than blo
 
 * We can add as many nodes as we want to the network using the `nodes/add` API endpoint, but only 3 nodes will be selected as validator (delegate) nodes after the voting process.
 
-* Here, for the purpose of simulation of voting process, our algorithm assigns random integers between 0 and 100 as votes using python's randint() function.
-    * Snippet of voting method of Blockchain class implemented in `blockchain.py`
-    ```
-    def add_vote(self):
-        self.all_nodes = list(self.nodes)
-        for x in self.all_nodes:
-            y=list(x)
-            y.append(x[1] * randint(0,100))
-            self.voteNodespool.append(y)
- 
-    ```
 * The 3 delegates are chosen from the pool of all stakeholders based on their stakes and votes received, i.e. the top 3 nodes having highest value of `(stake x votes)` are chosen to be the delegates.
-    * Snippet of the delegated selection implemented in Blockchain class in `blockchain.py`
-    ```
-    def selection(self):
-        self.starNodespool = sorted(self.voteNodespool, key = lambda vote: vote[2],reverse = True)
-        for x in range(3):
-            self.superNodespool.append(self.starNodespool[x])
-        for y in self.superNodespool:
-            self.delegates.append(y[0])
-    ```
 
 * The primary node (localhost:6000) generates the delegate list and all other nodes can view the elected delegates. For this we have a sync().
-    * Snippet of sync method implemented in Blockchain class in `blockchain.py`
-    ```
-    def sync(self):
-        r = requests.get('http://localhost:6000/delegates/show')
-        if(r.status_code == 200):
-            delegates = r.json()['node_delegates']
-            self.delegates = delegates[0:3]
-    ```
+* 
 
 ### API endpoints to interact with our blockchain
 
@@ -124,8 +97,8 @@ This endpoint finds the longest validated chain by checking all the neighbouring
 
 
 ## Tech stack 
-* The project is built using Python-Flask framework and tested on Ubuntu 20.04
-* Postman was used to test and interact with the endpoints.
+* The project is built using Python-Flask framework.
+* Postman was used to test and interact with the API endpoints.
 
 ## How to run
 1) Make sure Python 3.8+ , Flask and requests library is installed.
@@ -138,8 +111,8 @@ This endpoint finds the longest validated chain by checking all the neighbouring
 
         We can open different network ports on the same machine, on different terminals to simulate multinode network
     
-    * `python3 main.py -p 5001`
-    * `python3 main.py -p 5002`
+    * `python3 main.py -p 6001`
+    * `python3 main.py -p 6002`
 
 3) Run the API endpoints on an HTTP Client like [Postman](https://www.postman.com/downloads/).
 
