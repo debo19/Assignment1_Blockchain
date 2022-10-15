@@ -23,7 +23,7 @@ A trustworthy, strong, scalable, and effective consensus method for blockchain t
 
 Here, in DPoS ,user's vote weight is proportional to their stake rather than block mining being tied to the stakeholders' total tokens.
 
-## Implementation of DPoS in Dexter's Blockchain
+## Implementation of DPoS in Land Management System's Blockchain
 * All the methods are properly defined in Blockchain class of `blockchain.py` and the API routes to interact with the blockchain in `main.py`
 
 ### Methods in `blockchain.py`
