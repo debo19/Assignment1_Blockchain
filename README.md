@@ -3,8 +3,8 @@
 ## Team members - (Group 37)
 1) Debopriya Bhattacharjee (2020A4PS2225H)
 2) Anjali (2020A4PS2601H)
-3) Sanika
-4) Reet
+3) Sanika Ghanekar (2020AAPS2111H)
+4) Reet Agarwal (2020B4A72285H)
 
 ## Objective
 * This assignment to build a land management system with the following features:
