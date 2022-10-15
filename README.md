@@ -19,7 +19,7 @@ been assigned to the group.
 * This assignment focuses on implementing the consensus algorithm - __Delegated Proof of Stake__.
 
 ## Delegated Proof of Stake (DPoS) algorithm 
-DPoS is a reliable, robust, scalable and efficient consensus algorithm in Blockchain technology. It is an innovation over standard Proof of Stake (PoS). In DPoS, each node that has a stake in the system can delegate the validation of a transaction to other nodes by voting.
+A trustworthy, strong, scalable, and effective consensus method for blockchain technology is DPoS. It is an improvement above the common Proof of Stake (PoS). In DPoS, each node with a stake in the system has the ability to vote to assign other nodes the responsibility of validating transactions.
 
 Here, in DPoS ,user's vote weight is proportional to their stake rather than block mining being tied to the stakeholders' total tokens.
 
@@ -28,30 +28,30 @@ Here, in DPoS ,user's vote weight is proportional to their stake rather than blo
 
 ### Methods in `blockchain.py`
 
-* We have made `localhost:6000` as a primary node which takes care of adding new nodes to the network, maintain the stakes of those nodes , conduct the election process and choosing __3 delegate (validator) nodes__ which are authorised to validate transactions mine new blocks.
+* We have made `localhost:6000` as a primary node which takes care of adding new nodes to the network, maintain the stakes of those nodes, conduct voting and choose __3 delegate (validator) nodes__ which are authorised to validate transactions and mine new blocks.
 
 * We can add as many nodes as we want to the network using the `nodes/add` API endpoint, but only 3 nodes will be selected as validator (delegate) nodes after the voting process.
 
 * The 3 delegates are chosen from the pool of all stakeholders based on their stakes and votes received, i.e. the top 3 nodes having highest value of `(stake x votes)` are chosen to be the delegates.
 
-* The primary node (localhost:6000) generates the delegate list and all other nodes can view the elected delegates. For this we have a sync().
+* The primary node (localhost:6000) generates the delegate list and all other nodes can view the elected delegates. For this we have a sync() method.
 * 
 
 ### API endpoints to interact with our blockchain
 
 1). `/nodes/add`
 
-This is the first step in initialising our network. This POST route requires the user to enter the URLs of the nodes to be added to the network along with their stake one by one. Make sure to run this endpoint from all ports before begining any transactions with the blockchain.
+This is the starting stage of setting up our network. The user must input each node's URL and stake individually for this POST route in order to add them to the network. Be sure to run this endpoint from all ports before starting any blockchain transactions.
 ![Nodes add](./DemoImages/nodes-add.png)
 
 2). `/voting`
 
-This is a GET route to begin the voting process. Here in our case, only the primary node has the authority to conduct voting among all the other nodes who have stake. All other nodes who do not have access to conduct voting will receive error message. The endpoint sends the voting results to the primary node. The JSON response consists of the address of the node, stake of the node and the value of (stake x votes) of that node.
+This is a GET route that starts the voting. In this instance, only the primary node has the power to perform voting among all the stake-holding nodes. The error notice will be sent to all other nodes that do not have access to perform voting. The endpoint notifies the main node of the vote results. The address of the node, the node's stake, and the value of (stake x votes) of that node are all included in the JSON response.
 
 Voting results showing address, stake and (votes x stake) of all participating nodes
 ![Voting](./DemoImages/voting.png)
 
-Nodes apart from the primary node will receive an error as they are not eligible to conduct election.
+Nodes apart from the primary node will receive an error if they are not eligible to conduct election.
 ![Error](./DemoImages/voting_error.png)
 
 3). `/delegates/show`
@@ -62,21 +62,21 @@ This is a GET route to fetch and view all the delegates selected for mining by t
 
 4). `/delegates/sync`
 
-This is a GET endpoint which is required by all other nodes in the network apart from primary node to fetch the list of validator nodes.
+Apart from the principal node, all other nodes in the network must use this GET endpoint to retrieve the list of validator nodes.
 
 ![Sync delegates](./DemoImages/delegates-sync.png)
 
 5). `/transactions/new`
 
-This POST method initiates a new transaction and requires the user to enter the customer name, item name and total billing amount in JSON format.
+This POST method initiates a new transaction and requires the user to enter the buyer name, seller name, property name and amount in JSON format.
 
 ![New transaction](./DemoImages/transactions-new.png)
 
 6). `/mine`
 
-This GET endpoint facilitates validating transactions and mining new blocks. However, here, only validator nodes can mine new blocks as per the DPoS consensus stated above. Also the delegate node can mine a new block only when ther are atleast 2 unverified transactions in the pool. This ensures that no block goes under-filled.
+The mining of fresh blocks and transaction validation are made easier via this GET endpoint. As per the DPoS consensus mentioned above, only validator nodes can mine new blocks in this case. Additionally, the delegate node can only mine a new block when the pool has at least 2 unverified transactions. No block is under-filled as a result.
 
-Suppose a non-delegate node tries to mine a new block, it will receive this error.
+If a non-delegate node tries to mine a new block, it will receive this error.
 ![Mine error](./DemoImages/not-authorized.png)
 
 There must be >=2 transactions in a block
