@@ -52,7 +52,7 @@ Voting results showing address, stake and (votes x stake) of all participating n
 ![Voting](./DemoImages/voting.png)
 
 Nodes apart from the primary node will receive an error if they are not eligible to conduct election.
-![Error](./DemoImages/voting_error.png)
+![Error](./DemoImages/voting-error.png)
 
 3). `/delegates/show`
 
