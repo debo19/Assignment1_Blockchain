@@ -34,7 +34,9 @@ def mine():
                 'message': "New block mined!",
                 'index': block['index'],
                 'transactions': block['transactions'],
-                'previous_hash': block['previous_hash']
+                'previous_hash': block['previous_hash'],
+                'merkle_root': block['merkel_root']
+                
             }
             print(len(blockchain.unverified_transactions))
             return jsonify(response), 200
@@ -168,6 +170,7 @@ def consensus():
             'chain': blockchain.chain
         }
     return jsonify(response), 200
+
 
 
 
