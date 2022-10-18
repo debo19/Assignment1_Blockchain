@@ -85,7 +85,7 @@ class Blockchain(object):
 
         for i in self.unverified_transactions:
             if(len(self.unverified_transactions) != 0):
-                block['merkel_root'] = self.calculate_hash(self.calculate_hash(i))
+                block['merkel_root'] += self.calculate_hash(self.calculate_hash(i))
         for i in self.unverified_transactions:
             self.verified_transactions.append(i)
 
