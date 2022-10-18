@@ -12,6 +12,9 @@ import requests
 
 from random import randint
 
+
+
+
 # blockchain class
 class Blockchain(object):
     
@@ -58,6 +61,15 @@ class Blockchain(object):
 
         self.delegates = []
 
+    
+    def calculate_hash(self, hh):
+        string_object = json.dumps(hh, sort_keys=True)
+        trans_string = string_object.encode()
+
+        raw_hash = hashlib.sha256(trans_string)
+        hex_hash = raw_hash.hexdigest()
+
+        return hex_hash
 
     #creating a new block in the Blockchain
 
@@ -65,10 +77,16 @@ class Blockchain(object):
         block = {
             'index': len(self.chain) + 1,
             'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'merkel_root': '',
             'transactions': self.unverified_transactions,
             'previous_hash': previous_hash or self.hash(self.chain[-1])
         }
         self.verified_transactions += self.unverified_transactions
+
+        if(len(self.unverified_transactions) != 0):
+            block['merkel_root'] = self.calculate_hash(self.calculate_hash(self.unverified_transactions[0]) + self.calculate_hash(self.unverified_transactions[1]))
+        for i in self.unverified_transactions:
+            self.verified_transactions.append(i)
 
         print(self.verified_transactions)
 
@@ -205,5 +223,5 @@ class Blockchain(object):
             self.chain = new_chain
             return True
 
-        return False    
+        return False
    
